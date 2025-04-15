@@ -40,22 +40,14 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
-    // Aplicar la función hash para obtener la posición inicial
     long index = hash(key, map->capacity);
-
-    // Resolver colisiones buscando una casilla disponible
     while (map->buckets[index] != NULL) {
         if (map->buckets[index]->key != NULL && is_equal(map->buckets[index]->key, key)) {
-            // Si la clave ya existe, no insertar duplicados
             return;
         }
-        index = (index + 1) % map->capacity; // Avanzar al siguiente índice (arreglo circular)
+        index = (index + 1) % map->capacity;
     }
-
-    // Crear un nuevo par y colocarlo en la casilla encontrada
     map->buckets[index] = createPair(key, value);
-
-    // Actualizar el índice current y el tamaño del mapa
     map->current = index;
     map->size++;
 }
